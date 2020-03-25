@@ -11,3 +11,7 @@ if request.status_code == 200 or request.ok:
     print(".gitignore added to Clipboard.")
 else:
     print("Please specify correct project type.")
+
+f = open('.gitignore', 'w+')
+f.write(request.text)
+f.close()
