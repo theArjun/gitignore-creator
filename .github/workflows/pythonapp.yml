@@ -36,4 +36,3 @@ jobs:
         python3 setup.py install
         pip install pyinstaller
         pyinstaller --onefile creator/main.py
-        ./main  
