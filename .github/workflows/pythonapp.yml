@@ -36,4 +36,4 @@ jobs:
         python3 setup.py install
         pip install pyinstaller
         pyinstaller --onefile creator/main.py
-        pwd
+        printf '' | ./home/runner/work/gitignore-creator/gitignore-creator/creator/dist/main
