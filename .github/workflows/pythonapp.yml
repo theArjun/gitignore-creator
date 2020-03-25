@@ -35,5 +35,5 @@ jobs:
       run: |
         python3 setup.py install
         pip install pyinstaller
-        pyinstaller --onefile creator/main.py .
+        pyinstaller --onefile creator/main.py
         ./main  
