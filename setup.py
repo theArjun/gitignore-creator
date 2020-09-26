@@ -1,12 +1,19 @@
 from distutils.core import setup
 
 setup(name='GitIgnore Creator',
-      version='1.0',
+      version='0.1.0',
       description='Creates .gitignore file based on Project type.',
       author='Arjun Adhikari',
       author_email='arjunadhikari@protonmail.com',
       url='https://github.com/theArjun/gitignore-creator',
-      packages=['creator'],
+      packages=['src'],
+      license='GPL v3',
+      package_data={'src': ['description.txt']
+                    },
+      entry_points={
+          'console_scripts': [
+              'gitignore=src.main:main']
+      },
       requires=['pyperclip', 'requests'],
       classifiers=[
           'Development Status :: 1 Alpha',
