@@ -1,20 +1,29 @@
+import logging
+import os
 import sys
 
 import pyperclip
 import requests
 
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 
 def main():
+
     url = 'https://gitignore.io/api/{}'
-    print('Separate the projects by comma without spaces.')
+    print('Separate the projects separated by comma.')
     project_query = input("Enter project type : ")
 
-    f = open('.gitignore', 'w+')
-
     if project_query.strip() == '':
-        f.write('')
-        print('Empty gitignore created.')
-        f.close()
+        os.system('touch .gitignore')
+        logger.info('Empty gitignore created.')
         sys.exit(0)
 
     if ',' in project_query:
@@ -25,16 +34,26 @@ def main():
     url = url.format(project_query)
 
     request = requests.get(url)
+    logger.info('Connecting to server ...')
     if request.status_code == 200 or request.ok:
-        pyperclip.copy(request.text)
-        print(".gitignore added to Clipboard.")
-    else:
-        print("Please specify correct project type.")
+        logger.info('Fetched successully.')
 
-    f.write(request.text)
-    f.close()
-    
+        print('\nEnter GitIgnore Loaction : \n1. File\n2. Clipboard')
+        try:
+            choice = int(input('Enter (1 / 2) : '))
+            if choice == 1:
+                with open('.gitignore', 'w') as file_ptr:
+                    file_ptr.write(request.text)
+                    logger.info(f'Stored in file at {os.getcwd()}/.gitignore')
+            if choice == 2:
+                pyperclip.copy(request.text)
+                logger.info(".gitignore added to Clipboard.")
+        except ValueError:
+            logger.error('Invalid Choice')
+
+    else:
+        logger.error("Please specify correct project type.")
+
 
 if __name__ == '__main__':
     main()
-
